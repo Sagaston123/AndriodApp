@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/tvSeriesModel.dart';
 
 class RecordDetailsScreen extends StatefulWidget {
   const RecordDetailsScreen({super.key});
@@ -8,27 +9,27 @@ class RecordDetailsScreen extends StatefulWidget {
 }
 
 class _RecordDetailsScreenState extends State<RecordDetailsScreen> {
-  late Map<String, dynamic> record;
+  late Result record;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    record = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    record = ModalRoute.of(context)!.settings.arguments as Result;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(record['title']),
+        title: Text(record.name),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              record['image'],
+            Image.network(
+              "https://image.tmdb.org/t/p/w500${record.posterPath}",
               height: 150,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -37,46 +38,21 @@ class _RecordDetailsScreenState extends State<RecordDetailsScreen> {
               },
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              initialValue: record['title'],
-              decoration: const InputDecoration(labelText: 'Título'),
-              onChanged: (value) {
-                record['title'] = value;
-              },
+            Text(
+              record.overview,
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              initialValue: record['description'],
-              decoration: const InputDecoration(labelText: 'Descripción'),
-              onChanged: (value) {
-                record['description'] = value;
-              },
-            ),
-            const SizedBox(height: 16),
-            SwitchListTile.adaptive(
-              title: const Text('Activo'),
-              value: record['active'],
-              onChanged: (value) {
-                setState(() {
-                  record['active'] = value;
-                });
-              },
-            ),
-            CheckboxListTile(
-              title: const Text('Favorito'),
-              value: record['favorite'],
-              onChanged: (value) {
-                setState(() {
-                  record['favorite'] = value ?? false;
-                });
-              },
+            Text(
+              'Popularidad: ${record.popularity}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);  
+                Navigator.pop(context);
               },
-              child: const Text('Guardar'),
+              child: const Text('Volver'),
             ),
           ],
         ),
