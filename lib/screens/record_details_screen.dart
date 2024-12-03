@@ -22,32 +22,70 @@ class _RecordDetailsScreenState extends State<RecordDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(record.name),
+        actions: [
+          IconButton(
+            icon: Icon(
+              record.isFavorite ? Icons.star : Icons.star_border,
+              color: record.isFavorite ? Colors.yellow : null,
+            ),
+            onPressed: () {
+              setState(() {
+                record.isFavorite = !record.isFavorite;
+              });
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              "https://image.tmdb.org/t/p/w500${record.posterPath}",
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.broken_image, size: 50);
-              },
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                "https://image.tmdb.org/t/p/w500${record.posterPath}",
+                height: 250,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.broken_image, size: 100);
+                },
+              ),
             ),
             const SizedBox(height: 16),
+            Text(
+              record.name,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
             Text(
               record.overview,
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              textAlign: TextAlign.justify,
             ),
             const SizedBox(height: 16),
-            Text(
-              'Popularidad: ${record.popularity}',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Popularidad: ${record.popularity}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: Icon(
+                    record.isFavorite ? Icons.star : Icons.star_border,
+                    color: record.isFavorite ? Colors.yellow : null,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      record.isFavorite = !record.isFavorite;
+                    });
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
