@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../models/actorModel.dart';
 
 class ActorCard extends StatelessWidget {
-  final Map<String, dynamic> actor;
+  final Actor actor;
   final VoidCallback onTap;
   final VoidCallback onFavoriteToggle;
 
@@ -14,22 +15,19 @@ class ActorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: AssetImage(actor['image'] ?? 'assets/images/default.jpg'),
-          radius: 50,
-        ),
-        title: Text(actor['name'] ?? 'Sin Nombre'),
-        subtitle: Text('${actor['category']}, ${actor['experience']} años'),
-        trailing: IconButton(
-          icon: Icon(
-            actor['isFavorite'] ? Icons.star : Icons.star_border,
-            color: actor['isFavorite'] ? Colors.amber : null,
-          ),
-          onPressed: onFavoriteToggle,
-        ),
-        onTap: onTap,
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: actor.profilePath.isNotEmpty
+            ? NetworkImage("https://image.tmdb.org/t/p/w500${actor.profilePath}")
+            : const AssetImage("assets/actores/default.jpg") as ImageProvider,
+        radius: 30,
+      ),
+      title: Text(actor.name),
+      subtitle: Text(actor.department),
+      onTap: onTap,
+      trailing: IconButton(
+        icon: const Icon(Icons.star_border),
+        onPressed: onFavoriteToggle,
       ),
     );
   }
