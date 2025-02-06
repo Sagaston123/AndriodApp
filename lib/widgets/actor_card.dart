@@ -3,12 +3,14 @@ import '../models/actorModel.dart';
 
 class ActorCard extends StatelessWidget {
   final Actor actor;
+  final bool isFavorite;
   final VoidCallback onTap;
   final VoidCallback onFavoriteToggle;
 
   const ActorCard({
     Key? key,
     required this.actor,
+    required this.isFavorite,
     required this.onTap,
     required this.onFavoriteToggle,
   }) : super(key: key);
@@ -26,7 +28,10 @@ class ActorCard extends StatelessWidget {
       subtitle: Text(actor.department),
       onTap: onTap,
       trailing: IconButton(
-        icon: const Icon(Icons.star_border),
+        icon: Icon(
+          isFavorite ? Icons.star : Icons.star_border,
+          color: isFavorite ? Colors.yellow : null,
+        ),
         onPressed: onFavoriteToggle,
       ),
     );
