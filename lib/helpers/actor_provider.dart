@@ -38,4 +38,9 @@ class ActorProvider extends ChangeNotifier {
     prefs.setStringList('favoritos', favoritos.map((id) => id.toString()).toList());
     notifyListeners();
   }
+
+  // Obtener un actor por ID sin volver a llamar a la API
+  Actor? getActorById(int id) {
+    return actores.firstWhere((actor) => actor.id == id, orElse: () => Actor(id: 0, name: "No encontrado", profilePath: "", department: "N/A", popularity: 0.0, knownFor: []));
+  }
 }

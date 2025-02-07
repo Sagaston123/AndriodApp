@@ -28,12 +28,13 @@ class ActoresListScreen extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       'details',
-                      arguments: actor,
+                      arguments: actor.id,
                     );
                   },
                   onFavoriteToggle: () {
                     actorProvider.toggleFavorite(actor.id);
                   },
+                  popularity: actor.popularity, // ✅ Agregado para mostrar la popularidad
                 );
               },
             ),

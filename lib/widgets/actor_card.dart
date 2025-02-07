@@ -6,6 +6,7 @@ class ActorCard extends StatelessWidget {
   final bool isFavorite;
   final VoidCallback onTap;
   final VoidCallback onFavoriteToggle;
+  final double popularity;
 
   const ActorCard({
     Key? key,
@@ -13,6 +14,7 @@ class ActorCard extends StatelessWidget {
     required this.isFavorite,
     required this.onTap,
     required this.onFavoriteToggle,
+    required this.popularity,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class ActorCard extends StatelessWidget {
         radius: 30,
       ),
       title: Text(actor.name),
-      subtitle: Text(actor.department),
+      subtitle: Text("Popularidad: ${popularity.toStringAsFixed(2)}"), // ✅ Se muestra la popularidad
       onTap: onTap,
       trailing: IconButton(
         icon: Icon(
