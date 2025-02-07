@@ -9,10 +9,10 @@ class Movie {
     required this.genreIds,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
+  factory Movie.fromJson(Map<String, dynamic> json) {  //Convierte el json en un objeto Movie
     return Movie(
       id: json['id'] ?? 0,
-      title: json['title'] ?? "Título Desconocido",
+      title: json['title'] ?? json['original_title'] ?? json['original_name'] ?? "Título no disponible",
       genreIds: List<int>.from(json['genre_ids'] ?? []),
     );
   }
@@ -35,16 +35,16 @@ class Actor {
     required this.knownFor,
   });
 
-  factory Actor.fromJson(Map<String, dynamic> json) {
+  factory Actor.fromJson(Map<String, dynamic> json) {   //Convierte el json en un objeto Actor
     return Actor(
       id: json['id'] ?? 0,
       name: json['name'] ?? "Nombre Desconocido",
-      profilePath: json['profile_path'] ?? "", // Si es null, se asigna cadena vacía
+      profilePath: json['profile_path'] ?? "", 
       department: json['known_for_department'] ?? "No especificado",
       popularity: (json['popularity'] ?? 0.0).toDouble(),
       knownFor: (json['known_for'] as List?)
           ?.map((movie) => Movie.fromJson(movie))
-          .toList() ?? [], // Si es null, se asigna una lista vacía
+          .toList() ?? [],
     );
   }
 }

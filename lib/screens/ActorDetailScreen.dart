@@ -31,15 +31,12 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
       knownFor: [],
     );
 
-    // Inicializar la descripción con lo guardado en SharedPreferences
     descriptionController = TextEditingController();
     _loadDescription();
-    
-    // Estado de favorito desde el Provider
+
     isFavorite = actorProvider.favoritos.contains(actor.id);
   }
 
-  // Cargar la descripción desde SharedPreferences
   Future<void> _loadDescription() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -47,10 +44,23 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
     });
   }
 
-  // Guardar la descripción en SharedPreferences
+  //Guarda la descripción y volver a la lista de actores
   Future<void> _saveDescription() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('description_${actor.id}', descriptionController.text);
+
+    //Msg de confirmacion
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Cambios guardados'),
+        duration: Duration(milliseconds: 800), 
+      ),
+    );
+
+    //Vuelve a la lista de actores post-click en guardar
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) Navigator.pop(context);
+    });
   }
 
   @override
@@ -64,7 +74,7 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Imagen del actor centrada
+            //Foto del actor
             Center(
               child: CircleAvatar(
                 backgroundImage: actor.profilePath.isNotEmpty
@@ -75,7 +85,7 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Switch de favorito ahora arriba
+            //Switch de favorito
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -94,7 +104,7 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
 
             const SizedBox(height: 16),
 
-            // Lista de películas
+            //Lista de peliculas
             const Text("Películas:", style: TextStyle(fontWeight: FontWeight.bold)),
             Expanded(
               child: actor.knownFor.isEmpty
@@ -116,10 +126,9 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
                       },
                     ),
             ),
-
             const SizedBox(height: 16),
 
-            // Campo de descripción con máximo 2 líneas
+            //Descripcion personal
             TextFormField(
               controller: descriptionController,
               maxLines: 2,
@@ -131,15 +140,10 @@ class _ActorDetailScreenState extends State<ActorDetailScreen> {
 
             const SizedBox(height: 20),
 
-            // Botón de guardar centrado
+            //Boton de sav e
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  _saveDescription();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Cambios guardados')),
-                  );
-                },
+                onPressed: _saveDescription,
                 child: const Text('Guardar'),
               ),
             ),

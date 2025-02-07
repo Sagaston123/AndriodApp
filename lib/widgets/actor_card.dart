@@ -20,14 +20,24 @@ class ActorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        backgroundImage: actor.profilePath.isNotEmpty
-            ? NetworkImage("https://image.tmdb.org/t/p/w500${actor.profilePath}")
-            : const AssetImage("assets/actores/default.jpg") as ImageProvider,
-        radius: 30,
+      leading: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: CircleAvatar(
+          backgroundImage: actor.profilePath.isNotEmpty
+              ? NetworkImage("https://image.tmdb.org/t/p/w500${actor.profilePath}")
+              : const AssetImage("assets/actores/default.jpg"),
+          radius: 30,
+        ),
       ),
-      title: Text(actor.name),
-      subtitle: Text("Popularidad: ${popularity.toStringAsFixed(2)}"), // ✅ Se muestra la popularidad
+      title: Text(
+        actor.name,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(       
+        "Popularidad: ${popularity % 1 == 0 ? popularity.toInt() : popularity.toStringAsFixed(2)}", 
+      ), 
       onTap: onTap,
       trailing: IconButton(
         icon: Icon(

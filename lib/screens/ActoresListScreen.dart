@@ -8,36 +8,38 @@ class ActoresListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actorProvider = Provider.of<ActorProvider>(context);
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lista de Actores'),
-      ),
-      body: actorProvider.actores.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: actorProvider.actores.length,
-              itemBuilder: (context, index) {
-                final actor = actorProvider.actores[index];
+      appBar: AppBar(title: const Text('Lista de Actores')),
+      body: Consumer<ActorProvider>(  //en vez de provider para que solo el body se actualice
+        builder: (context, actorProvider, child) {
+          if (actorProvider.actores.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-                return ActorCard(
-                  actor: actor,
-                  isFavorite: actorProvider.favoritos.contains(actor.id),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      'details',
-                      arguments: actor.id,
-                    );
-                  },
-                  onFavoriteToggle: () {
-                    actorProvider.toggleFavorite(actor.id);
-                  },
-                  popularity: actor.popularity, // ✅ Agregado para mostrar la popularidad
-                );
-              },
-            ),
+          return ListView.builder(
+            itemCount: actorProvider.actores.length,
+            itemBuilder: (context, index) {
+              final actor = actorProvider.actores[index];
+
+              return ActorCard(
+                actor: actor,
+                isFavorite: actorProvider.favoritos.contains(actor.id),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    'details',
+                    arguments: actor.id, //Solo el id para que no tarde mucho
+                  );
+                },
+                onFavoriteToggle: () {
+                  actorProvider.toggleFavorite(actor.id);
+                },
+                popularity: actor.popularity, //Solo al popularidad
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
