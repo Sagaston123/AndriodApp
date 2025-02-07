@@ -8,7 +8,7 @@ class ApiServiceSeries {
   ApiServiceSeries(this.baseUrl);
 
   Future<List<Result>> fetchSeries() async {
-    final url = Uri.parse("$baseUrl/app/series");
+    final url = Uri.parse("$baseUrl/app/series/top_rated");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

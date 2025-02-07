@@ -32,7 +32,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // Proveedor del servicio API para series
         Provider<ApiServiceSeries>(
           create: (_) => ApiServiceSeries('http://localhost:3000'),
         ),
