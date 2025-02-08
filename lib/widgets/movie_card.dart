@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../widgets/RatingCircle.dart';
 
 class MovieCard extends StatelessWidget {
-final String poster;
+  final String poster;
   final String title;
-  final String category;
+  final String overview; // Cambiamos category por overview
   final double rating;
+  final int id;
   final bool isFavorite;
   final VoidCallback? onFavoriteToggle;
   final VoidCallback? onTap;
@@ -12,15 +15,16 @@ final String poster;
   const MovieCard({
     required this.poster,
     required this.title,
-    required this.category,
+    required this.overview, // Cambiamos category por overview
     required this.rating,
+    required this.id,
     required this.isFavorite,
     this.onFavoriteToggle,
     this.onTap,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
@@ -30,13 +34,16 @@ final String poster;
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-              child: Image.asset(
-                'assets/posters_estrenos/$poster.jpg',
-                height: 150,
-                width: double.infinity,
-                fit: BoxFit.cover,
+            // Contenedor para la imagen
+            Container(
+              height: 200, // Ajusta la altura de la imagen
+              width: double.infinity, // Ocupa todo el ancho
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                image: DecorationImage(
+                  image: NetworkImage("https://image.tmdb.org/t/p/w500$poster"),
+                  fit: BoxFit.cover, // Ajusta la imagen para cubrir el espacio
+                ),
               ),
             ),
             Padding(
@@ -51,56 +58,29 @@ final String poster;
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Categoría: $category',
+                    'Sinopsis: $overview', // Cambiamos "Categoría" por "Sinopsis"
                     style: const TextStyle(color: Colors.grey),
+                    maxLines: 3, // Limita el número de líneas para evitar que ocupe mucho espacio
+                    overflow: TextOverflow.ellipsis, // Muestra "..." si el texto es demasiado largo
                   ),
                   const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RatingCircle(rating: rating),
-                    Icon(
-                      isFavorite ? Icons.star : Icons.star_border_outlined,
-                      color: isFavorite ? Colors.yellow : Colors.grey,
-                    ),
-                  ],
-                ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RatingCircle(rating: rating),
+                      IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.star : Icons.star_border_outlined,
+                          color: isFavorite ? Colors.yellow : Colors.grey,
+                        ),
+                        onPressed: onFavoriteToggle,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class RatingCircle extends StatelessWidget {
-  final double rating;
-
-  const RatingCircle({Key? key, required this.rating}) : super(key: key);
-
-  Color _getRatingColor(double rating) {
-    if (rating < 50) return Colors.red; 
-    if (rating < 75) return Colors.amber;
-    return Colors.green;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: _getRatingColor(rating), 
-        shape: BoxShape.circle,
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        rating.toStringAsFixed(1),
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );

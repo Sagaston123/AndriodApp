@@ -8,6 +8,7 @@ import 'package:flutter_application_base/themes/app_theme.dart';
 import 'package:flutter_application_base/helpers/apiServiceSeries.dart';
 import 'package:flutter_application_base/helpers/actor_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_base/helpers/estrenosProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +38,8 @@ class _MyAppState extends State<MyApp> {
         ),
         // Proveedor para actores y favoritos
         ChangeNotifierProvider(create: (_) => ActorProvider()),
+        // Proveedor para estrenos y favoritos
+        ChangeNotifierProvider(create: (_) => EstrenosProvider()), 
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
