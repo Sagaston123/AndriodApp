@@ -3,17 +3,19 @@
 # 🎬 Proyecto de Gestión de Actores, Series y Películas
 
 ## 📌 Descripción General
-Este proyecto es una aplicación desarrollada en **Flutter** que permite visualizar información sobre actores, series, películas y estrenos próximos. La app se conecta con una API en **Node.js**, que obtiene datos de The Movie Database (TMDB).
+Este proyecto es una aplicación desarrollada en **Flutter** que permite visualizar información sobre actores, series, películas y estrenos próximos. La app se conecta con una proyecto en **Node.js** y pide datos a una API externa "The Movie Database" (TMDB).
 
 ## 👥 Integrantes del Equipo
-- **[Tu Nombre]** - Módulo de Actores
-- **[Compañero 1]** - Módulo de Series
-- **[Compañero 2]** - Módulo de Películas
-- **[Compañero 3]** - Módulo de Estrenos
+- **[Gaston Sagasti]** - Módulo de ActoreS
+- **[Genaro Zottele]** - Módulo de Series
+- **[Santiago Schro]** - Módulo de Películas
+- **[Genaro Weis]** - Módulo de Estrenos
 
 ## ✨ Características del Proyecto
 ✅ Lista de actores con sus películas destacadas y popularidad.  
-✅ Listado de series, películas y estrenos.  
+✅ Listado de series con sus imagenes  
+✅ Listado de peliculas
+✅ Listado de estrenos
 ✅ Posibilidad de marcar favoritos (guardado con `SharedPreferences`).  
 ✅ Descripción personal editable para cada actor.  
 ✅ Datos obtenidos de la API de TMDB a través de un backend en **Node.js**.  

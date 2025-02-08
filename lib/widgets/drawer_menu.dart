@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DrawerMenu extends StatelessWidget {
-  final List<Map<String, String>> _menuItems = <Map<String, String>>[
-    {'route': 'home', 'title': 'Home', 'subtitle': 'Home + counter app'},
-    {'route': 'estrenos_list_screen', 'title': 'Películas Estreno', 'subtitle': ''}, //Weis
-    {'route': 'actores', 'title': 'Lista Actores', 'subtitle': ''},   //Sagasti
-    {'route': 'record_list', 'title': 'Lista de Series TV', 'subtitle': ''},  //Zottele
-    {'route': 'custom_list_movies_screen','title': 'Películas','subtitle': 'Lista de películas'}, //Schroh
-    {'route': 'profile', 'title': 'Perfil usuario', 'subtitle': ''},
+  final List<Map<String, dynamic>> _menuItems = [
+    {'route': 'home', 'title': 'Inicio', 'icon': Icons.home},
+    {'route': 'estrenos_list_screen', 'title': 'Estrenos', 'icon': Icons.movie_filter_outlined}, // Weis
+    {'route': 'actores', 'title': 'Actores', 'icon': Icons.person},   // Sagasti
+    {'route': 'record_list', 'title': 'Series', 'icon': Icons.tv},  // Zottele
+    {'route': 'custom_list_movies_screen', 'title': 'Películas', 'icon': Icons.local_movies}, // Schroh
+    {'route': 'profile', 'title': 'Perfil', 'icon': Icons.account_circle_outlined},
   ];
 
   DrawerMenu({super.key});
@@ -15,105 +16,63 @@ class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
-          const _DrawerHeaderAlternative(),
-          ...ListTile.divideTiles(
-              context: context,
-              tiles: _menuItems
-                  .map((item) => ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 10),
-                        dense: true,
-                        minLeadingWidth: 25,
-                        iconColor: Colors.blueGrey,
-                        title: Text(item['title']!,
-                            style: const TextStyle(fontFamily: 'FuzzyBubbles')),
-                        subtitle: Text(item['subtitle'] ?? '',
-                            style: const TextStyle(
-                                fontFamily: 'RobotoMono', fontSize: 11)),
-                        leading: const Icon(Icons.arrow_right),
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, item['route']!);
-                        },
-                      ))
-                  .toList())
+          const _DrawerHeader(),
+          Expanded(
+            child: ListView.separated(
+              itemCount: _menuItems.length,
+              separatorBuilder: (context, index) => const Divider(height: 1, color: Colors.grey),
+              itemBuilder: (context, index) {
+                final item = _menuItems[index];
+                return ListTile(
+                  leading: Icon(item['icon'], color: Colors.blueGrey),
+                  title: Text(
+                    item['title'],
+                    style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, item['route']);
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class _DrawerHeaderAlternative extends StatelessWidget {
-  const _DrawerHeaderAlternative({
-    super.key,
-  });
+class _DrawerHeader extends StatelessWidget {
+  const _DrawerHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      padding: EdgeInsets.zero,
-      child: Stack(children: [
-        Positioned(
-          top: -90,
-          child: Container(
-            width: 130,
-            height: 130,
-            decoration: BoxDecoration(
-                color: Colors.blueAccent.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(10)),
-            transform: Matrix4.rotationZ(0.2),
-          ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.deepPurple.shade700, Colors.black],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        Positioned(
-          bottom: 0,
-          left: 140,
-          child: Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-                color: Colors.redAccent.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(10)),
-            transform: Matrix4.rotationZ(0.9),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.movie, size: 50, color: Colors.amber),
+          const SizedBox(height: 10),
+          Text(
+            "Películas y Series",
+            style: GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-        ),
-        Positioned(
-          top: 30,
-          right: 35,
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(10)),
-            transform: Matrix4.rotationZ(0.9),
+          Text(
+            "Explora tu contenido favorito",
+            style: GoogleFonts.roboto(fontSize: 14, color: Colors.white70),
           ),
-        ),
-        Positioned(
-          top: 70,
-          right: -10,
-          child: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(5)),
-            transform: Matrix4.rotationZ(0.9),
-          ),
-        ),
-        Container(
-          alignment: Alignment.bottomRight,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: const Text(
-            '[  Menu  ]',
-            style: TextStyle(
-                fontSize: 13, color: Colors.black54, fontFamily: 'RobotoMono'),
-            textAlign: TextAlign.right,
-          ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
