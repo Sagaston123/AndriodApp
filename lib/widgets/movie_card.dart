@@ -34,6 +34,16 @@ class MovieCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(10)),
+              child: Image.asset(
+                'assets/posters_estrenos/$poster.jpg',
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+
             // Contenedor para la imagen
             Container(
               height: 200, // Ajusta la altura de la imagen
@@ -44,6 +54,7 @@ class MovieCard extends StatelessWidget {
                   image: NetworkImage("https://image.tmdb.org/t/p/w500$poster"),
                   fit: BoxFit.cover, // Ajusta la imagen para cubrir el espacio
                 ),
+
               ),
             ),
             Padding(
@@ -53,7 +64,8 @@ class MovieCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
@@ -68,6 +80,55 @@ class MovieCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       RatingCircle(rating: rating),
+
+                      Icon(
+                        isFavorite ? Icons.star : Icons.star_border_outlined,
+                        color: isFavorite ? Colors.yellow : Colors.grey,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RatingCircle extends StatelessWidget {
+  final double rating;
+
+  const RatingCircle({Key? key, required this.rating}) : super(key: key);
+
+  Color _getRatingColor(double rating) {
+    if (rating < 50) return Colors.red;
+    if (rating < 75) return Colors.amber;
+    return Colors.green;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: _getRatingColor(rating),
+        shape: BoxShape.circle,
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        rating.toStringAsFixed(1),
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
                       IconButton(
                         icon: Icon(
                           isFavorite ? Icons.star : Icons.star_border_outlined,
@@ -86,3 +147,4 @@ class MovieCard extends StatelessWidget {
     );
   }
 }
+
