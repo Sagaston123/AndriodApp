@@ -10,6 +10,7 @@ import 'package:flutter_application_base/helpers/actor_provider.dart';
 import 'package:flutter_application_base/helpers/apiServiceMovies.dart'; // Importa el ApiServiceMovies
 import 'package:flutter_application_base/helpers/movie_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_base/helpers/estrenosProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,14 +35,18 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // Proveedor del servicio API para series
         Provider<ApiServiceSeries>(
           create: (_) => ApiServiceSeries('http://localhost:3000'),
         ),
         // Proveedor para actores y favoritos
         ChangeNotifierProvider(create: (_) => ActorProvider()),
 
+
         ChangeNotifierProvider(create: (_) => MovieProvider()),
+
+        // Proveedor para estrenos y favoritos
+        ChangeNotifierProvider(create: (_) => EstrenosProvider()), 
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

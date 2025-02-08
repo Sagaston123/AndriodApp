@@ -1,16 +1,22 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
+<<<<<<< schroh
 import 'package:flutter_application_base/mocks/estrenos_mock.dart'
     show peliculasEstrenos;
 import 'package:flutter_application_base/widgets/widgets.dart';
+=======
+import 'package:provider/provider.dart';
+import '../helpers/estrenosProvider.dart';
+import '../widgets/movie_card.dart';
+>>>>>>> main
 
 class CustomListScreenEstrenos extends StatefulWidget {
   const CustomListScreenEstrenos({super.key});
 
   @override
-  State<CustomListScreenEstrenos> createState() => _CustomListScreenState();
+  State<CustomListScreenEstrenos> createState() => _CustomListScreenEstrenosState();
 }
 
+<<<<<<< schroh
 class _CustomListScreenState extends State<CustomListScreenEstrenos> {
   List _auxiliarElements = []; // lista para filtrar resultados
   String _searchQuery = ''; // texto de busqueda
@@ -19,10 +25,15 @@ class _CustomListScreenState extends State<CustomListScreenEstrenos> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _focusNode =
       FocusNode(); // para manejar el foco en la barra de busqueda
+=======
+class _CustomListScreenEstrenosState extends State<CustomListScreenEstrenos> {
+  bool _isLoading = true;
+>>>>>>> main
 
   @override
   void initState() {
     super.initState();
+<<<<<<< schroh
     _auxiliarElements =
         peliculasEstrenos; // inicializa la lista con todos los estrenos
   }
@@ -33,109 +44,53 @@ class _CustomListScreenState extends State<CustomListScreenEstrenos> {
     _searchController.dispose();
     _focusNode.dispose();
     super.dispose();
+=======
+    _loadData();
+>>>>>>> main
   }
 
-  void _updateSearch(String? query) {
-    // filtra los elementos segun lo que escribis en la busqueda
+  Future<void> _loadData() async {
+    final estrenosProvider = Provider.of<EstrenosProvider>(context, listen: false);
+    await estrenosProvider.cargarEstrenos();
     setState(() {
-      _searchQuery = query ?? '';
-      if (_searchQuery.isEmpty) {
-        _auxiliarElements = peliculasEstrenos;
-      } else {
-        _auxiliarElements = peliculasEstrenos.where((element) {
-          return element[1].toLowerCase().contains(_searchQuery.toLowerCase());
-        }).toList();
-      }
+      _isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: true,
-      child: Scaffold(
-        body: Column(
-          children: [
-            searchArea(), // barra de busqueda arriba
-            listItemsArea(), // lista de estrenos abajo
-          ],
-        ),
-      ),
-    );
-  }
+    final estrenosProvider = Provider.of<EstrenosProvider>(context);
 
-  Expanded listItemsArea() {
-    // lista de elementos que muestra las peliculas
-    return Expanded(
-      child: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: _auxiliarElements.length,
-        itemBuilder: (BuildContext context, int index) {
-          final movie = _auxiliarElements[index]; // info de cada pelicula
-
-          return GestureDetector(
-            onTap: () async {
-              // navega a los detalles y espera los cambios
-              final updatedData = await Navigator.pushNamed(
-                context,
-                'estrenos_list_item',
-                arguments: {
-                  'poster': movie[0],
-                  'title': movie[1],
-                  'category': movie[2],
-                  'rating': movie[3],
-                  'favorite': movie[4],
-                },
-              );
-
-              // actualiza la lista si cambiaste el estado de favorito
-              if (updatedData != null) {
-                setState(() {
-                  _auxiliarElements[index][4] = updatedData;
-                });
-              }
-            },
-            child: MovieCard(
-              // tarjeta para mostrar cada pelicula
-              poster: movie[0],
-              title: movie[1],
-              category: movie[2],
-              rating: movie[3],
-              isFavorite: movie[4],
-              onFavoriteToggle: () {
-                setState(() {
-                  // cambia el estado de favorito directo desde la tarjeta
-                  _auxiliarElements[index][4] = !_auxiliarElements[index][4];
-                });
-              },
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  AnimatedSwitcher searchArea() {
-    // area que cambia entre barra de busqueda o botones
-    return AnimatedSwitcher(
-      switchInCurve: Curves.bounceIn,
-      switchOutCurve: Curves.bounceOut,
-      duration: const Duration(milliseconds: 300),
-      child: (_searchActive)
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _searchController,
-                      focusNode: _focusNode,
-                      onChanged: (value) {
-                        _updateSearch(value); // busca mientras escribis
+    return Scaffold(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: estrenosProvider.estrenos.length,
+              itemBuilder: (context, index) {
+                final movie = estrenosProvider.estrenos[index];
+                return MovieCard(
+                  poster: movie.posterPath,
+                  title: movie.title,
+                  overview: movie.overview, // Pasamos el overview en lugar de genreIds
+                  rating: movie.voteAverage,
+                  id: movie.id,
+                  isFavorite: estrenosProvider.favoritos.contains(movie.id),
+                  onFavoriteToggle: () {
+                    estrenosProvider.toggleFavorito(movie.id);
+                  },
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      'estrenos_list_item',
+                      arguments: {
+                        'poster': movie.posterPath,
+                        'title': movie.title,
+                        'overview': movie.overview, // Pasamos el overview
+                        'rating': movie.voteAverage,
+                        'favorite': estrenosProvider.favoritos.contains(movie.id),
+                        'id': movie.id,
                       },
-                      onFieldSubmitted: (value) {
-                        _updateSearch(value); // busca al presionar enter
-                      },
+<<<<<<< schroh
                       decoration: const InputDecoration(hintText: 'Buscar...'),
                     ),
                   ),
@@ -183,6 +138,12 @@ class _CustomListScreenState extends State<CustomListScreenEstrenos> {
                   ),
                 ],
               ),
+=======
+                    );
+                  },
+                );
+              },
+>>>>>>> main
             ),
     );
   }
