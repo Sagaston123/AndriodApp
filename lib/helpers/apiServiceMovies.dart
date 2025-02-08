@@ -19,7 +19,6 @@ class ApiServiceMovies {
         final List<dynamic> results = jsonResponse[
             'data']; // Asumiendo que la respuesta tiene un campo 'data'
 
-        print("Respuesta de la API: ${response.body}");
         return results.map((movieJson) => Movie.fromJson(movieJson)).toList();
       } else {
         print("Error en la API (Código ${response.statusCode})");
