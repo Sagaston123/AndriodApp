@@ -7,6 +7,8 @@ import 'package:flutter_application_base/screens/screens.dart';
 import 'package:flutter_application_base/themes/app_theme.dart';
 import 'package:flutter_application_base/helpers/apiServiceSeries.dart';
 import 'package:flutter_application_base/helpers/actor_provider.dart';
+import 'package:flutter_application_base/helpers/apiServiceMovies.dart'; // Importa el ApiServiceMovies
+import 'package:flutter_application_base/helpers/movie_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -38,6 +40,8 @@ class _MyAppState extends State<MyApp> {
         ),
         // Proveedor para actores y favoritos
         ChangeNotifierProvider(create: (_) => ActorProvider()),
+
+        ChangeNotifierProvider(create: (_) => MovieProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -54,7 +58,8 @@ class _MyAppState extends State<MyApp> {
           'details': (context) => const ActorDetailScreen(),
           'record_list': (context) => const RecordListScreen(),
           'record_details': (context) => const RecordDetailsScreen(),
-          'custom_list_movies_screen': (context) => const CustomListMoviesScreen(),
+          'custom_list_movies_screen': (context) =>
+              const CustomListMoviesScreen(),
           'custom_list_movies_item': (context) => const MovieDetailsScreen(),
         },
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
-final String poster;
+  final String poster;
   final String title;
   final String category;
   final double rating;
@@ -20,7 +20,7 @@ final String poster;
     super.key,
   });
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
@@ -31,7 +31,8 @@ final String poster;
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(10)),
               child: Image.asset(
                 'assets/posters_estrenos/$poster.jpg',
                 height: 150,
@@ -46,7 +47,8 @@ final String poster;
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
@@ -55,16 +57,16 @@ final String poster;
                     style: const TextStyle(color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RatingCircle(rating: rating),
-                    Icon(
-                      isFavorite ? Icons.star : Icons.star_border_outlined,
-                      color: isFavorite ? Colors.yellow : Colors.grey,
-                    ),
-                  ],
-                ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RatingCircle(rating: rating),
+                      Icon(
+                        isFavorite ? Icons.star : Icons.star_border_outlined,
+                        color: isFavorite ? Colors.yellow : Colors.grey,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -81,7 +83,7 @@ class RatingCircle extends StatelessWidget {
   const RatingCircle({Key? key, required this.rating}) : super(key: key);
 
   Color _getRatingColor(double rating) {
-    if (rating < 50) return Colors.red; 
+    if (rating < 50) return Colors.red;
     if (rating < 75) return Colors.amber;
     return Colors.green;
   }
@@ -92,7 +94,7 @@ class RatingCircle extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: _getRatingColor(rating), 
+        color: _getRatingColor(rating),
         shape: BoxShape.circle,
       ),
       alignment: Alignment.center,

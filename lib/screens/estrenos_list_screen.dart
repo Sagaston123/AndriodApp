@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_base/mocks/estrenos_mock.dart' show peliculasEstrenos;
+import 'package:flutter_application_base/mocks/estrenos_mock.dart'
+    show peliculasEstrenos;
 import 'package:flutter_application_base/widgets/widgets.dart';
 
 class CustomListScreenEstrenos extends StatefulWidget {
@@ -16,12 +17,14 @@ class _CustomListScreenState extends State<CustomListScreenEstrenos> {
   bool _searchActive = false; // estado de la barra de busqueda
 
   final TextEditingController _searchController = TextEditingController();
-  final FocusNode _focusNode = FocusNode(); // para manejar el foco en la barra de busqueda
+  final FocusNode _focusNode =
+      FocusNode(); // para manejar el foco en la barra de busqueda
 
   @override
   void initState() {
     super.initState();
-    _auxiliarElements = peliculasEstrenos; // inicializa la lista con todos los estrenos
+    _auxiliarElements =
+        peliculasEstrenos; // inicializa la lista con todos los estrenos
   }
 
   @override
@@ -171,7 +174,8 @@ class _CustomListScreenState extends State<CustomListScreenEstrenos> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        _searchActive = !_searchActive; // activa la barra de busqueda
+                        _searchActive =
+                            !_searchActive; // activa la barra de busqueda
                       });
                       _focusNode.requestFocus();
                     },
