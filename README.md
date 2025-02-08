@@ -5,6 +5,8 @@
 ## 📌 Descripción General
 Este proyecto es una aplicación desarrollada en **Flutter** que permite visualizar información sobre actores, series, películas y estrenos próximos. La app se conecta con una proyecto en **Node.js** y pide datos a una API externa "The Movie Database" (TMDB).
 
+Para la materia de Laboratorio IV que se dicta en la Universidad Tecnologica Nacional de Bahia Blanca, se nos pidio que realizaramos un primer proyecto con Node.js que haga peticiones a una API exerta, luego con el segundo trabajo debiamos simular mediante mocks la informacion que nos traia la misma api (mediante JSONs) para realizar una aplicacion tanto web como movil. Finalmente cerramos la materia con un proyecto que integra los conceptos vistos en case y los proyectos realizados para poder hacer una aplicacion en Flutter conectada al backend en Node.
+
 ## 👥 Integrantes del Equipo
 - **[Gaston Sagasti]** - Módulo de ActoreS
 - **[Genaro Zottele]** - Módulo de Series
@@ -16,7 +18,7 @@ Este proyecto es una aplicación desarrollada en **Flutter** que permite visuali
 ✅ Listado de series con sus imagenes  
 ✅ Listado de peliculas
 ✅ Listado de estrenos
-✅ Posibilidad de marcar favoritos (guardado con `SharedPreferences`).  
+✅ Posibilidad de marcar favoritos.  
 ✅ Descripción personal editable para cada actor.  
 ✅ Datos obtenidos de la API de TMDB a través de un backend en **Node.js**.  
 ✅ Manejo de estado con **Provider**.  
@@ -32,8 +34,8 @@ Para ejecutar este proyecto, necesitarás:
 ## 🚀 Cómo Ejecutar el Proyecto
 ### 1️⃣ Clonar el Repositorio
 ```bash
-git clone [URL_DEL_REPO]
-cd [NOMBRE_DEL_PROYECTO]
+git clone [https://github.com/Sagaston123/EntregaFinalWeisZotteleSchrohSagasti.git]
+cd [EntregaFinalWeisZotteleSchrohSagasti]
 ```
 
 ### 2️⃣ Configurar Variables de Entorno
@@ -66,20 +68,33 @@ flutter run
  ┣ 📂 lib
  ┃ ┣ 📂 helpers
  ┃ ┃ ┣ actor_provider.dart
+ ┃ ┃ ┣ EstrenosProvider.dart
+ ┃ ┃ ┣ apiServiceEstrenos.dart
+ ┃ ┃ ┣ apiServiceSeries.dart
  ┃ ┃ ┣ apiServiceActors.dart
+ ┃ ┃ ┣ preferences.dart
  ┃ ┣ 📂 models
  ┃ ┃ ┣ actorModel.dart
+ ┃ ┃ ┣ estrenosModel.dart
  ┃ ┃ ┣ movieModel.dart
  ┃ ┣ 📂 screens
- ┃ ┃ ┣ actores_list_screen.dart
- ┃ ┃ ┣ actor_detail_screen.dart
- ┃ ┃ ┣ series_list_screen.dart
- ┃ ┃ ┣ peliculas_list_screen.dart
+ ┃ ┃ ┣ ActorDetailScreen.dart
+ ┃ ┃ ┣ ActoresListScreen.dart
+ ┃ ┃ ┣ custom_list_movies_item.dart
+ ┃ ┃ ┣ custom_list_movies_screen.dart
+ ┃ ┃ ┣ home_screen.dart
+ ┃ ┃ ┣ profile_screen.dart
+ ┃ ┃ ┣ estrenos_list_item.dart
  ┃ ┃ ┣ estrenos_list_screen.dart
+ ┃ ┃ ┣ record_details_screen.dart
+ ┃ ┃ ┣ record_list_screen.dart
  ┃ ┣ 📂 widgets
  ┃ ┃ ┣ actor_card.dart
- ┃ ┃ ┣ series_card.dart
- ┃ ┃ ┣ peliculas_card.dart
+ ┃ ┃ ┣ custom_card.dart
+ ┃ ┃ ┣ drawer_menu.dart
+ ┃ ┃ ┣ movie_card.dart
+ ┃ ┃ ┣ RatingCircle_card.dart
+ ┃ ┃ ┣ widgets.dart
  ┃ ┣ main.dart
  ┣ 📂 backend (API en Node.js)
  ┃ ┣ controllers/
@@ -105,20 +120,24 @@ flutter run
 ### 🔹 Actores
 - `GET /app/people` → Obtiene la lista de actores populares.
 - `GET /app/people/:id` → Obtiene información detallada de un actor.
+- `GET /app/people/department` → Obtiene información detallada del departamento de un actor.
 
 ### 🔹 Series
 - `GET /app/series` → Obtiene la lista de series populares.
-- `GET /app/series/:id` → Obtiene detalles de una serie.
+- `GET /app/series/serie/:id` → Obtiene detalles de una serie.
+- `GET /app/series/top_rated` → Obtiene las mejores series.
+- `GET /app/series/filter` → Filterea segun un campo de una serie.
 
 ### 🔹 Películas
-- `GET /app/movies` → Obtiene la lista de películas populares.
-- `GET /app/movies/:id` → Obtiene detalles de una película.
+- `GET /app/movies/popular` → Obtiene la lista de películas populares.
+- `GET /app/movies/:id/credits` → Obtiene creditos de una película.
+- `GET /app/movies/id/recommendations` → Obtiene las recomendaciones de una pelicula.
+- `GET /app/movies/genre` → Obtiene los generos de las películas.
 
 ### 🔹 Estrenos
-- `GET /app/estrenos` → Obtiene la lista de próximos estrenos.
+- `GET /app/upcoming` → Obtiene los proximos estrenos.
+- `GET /app/upcoming/:id` → Obtiene información detallada de una pelicula en estrenos.
+- `GET /app/upcoming/language?original_language=en` → Filtra por lenguaje.
 
-## 📧 Contacto
-Para más información o dudas, contactar a `sganan81@gmail.com`.
 
-🚀 **¡Listo para el push final!**
 
