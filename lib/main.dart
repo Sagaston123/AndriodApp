@@ -7,7 +7,7 @@ import 'package:flutter_application_base/screens/screens.dart';
 import 'package:flutter_application_base/themes/app_theme.dart';
 import 'package:flutter_application_base/helpers/apiServiceSeries.dart';
 import 'package:flutter_application_base/helpers/actor_provider.dart';
-import 'package:flutter_application_base/helpers/apiServiceMovies.dart'; // Importa el ApiServiceMovies
+import 'package:flutter_application_base/helpers/apiServiceMovies.dart';
 import 'package:flutter_application_base/helpers/movie_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_base/helpers/estrenosProvider.dart';
@@ -38,13 +38,8 @@ class _MyAppState extends State<MyApp> {
         Provider<ApiServiceSeries>(
           create: (_) => ApiServiceSeries('http://localhost:3000'),
         ),
-        // Proveedor para actores y favoritos
         ChangeNotifierProvider(create: (_) => ActorProvider()),
-
-
         ChangeNotifierProvider(create: (_) => MovieProvider()),
-
-        // Proveedor para estrenos y favoritos
         ChangeNotifierProvider(create: (_) => EstrenosProvider()), 
 
       ],
